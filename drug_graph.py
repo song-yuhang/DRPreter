@@ -104,6 +104,7 @@ def save_drug_graph():
     for i in range(len(smiles)):
         drug_dict[smiles.iloc[i, 0]] = smiles2graph(smiles.iloc[i, 2])
     np.save('Data/Drug/drug_feature_graph.npy', drug_dict)
+    print("成功保存 Data/Drug/drug_feature_graph.npy")
     return drug_dict
 
 

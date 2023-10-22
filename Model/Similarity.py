@@ -73,6 +73,8 @@ class Similarity(nn.Module):
         cell_x = cell_x.squeeze()
 
         x = torch.cat([drug_x[drug_id], cell_x[cell_id]], -1)
+        print(x)
+
         x = self.regression(x)
 
-        return x
+        return x 

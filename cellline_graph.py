@@ -28,7 +28,9 @@ def save_cell_graph(gene_path, save_path, type):
         print('already exists!')
     else:
         # os.makedirs(save_path)
-        exp = pd.read_csv(os.path.join(gene_path, 'CCLE_2369_EXP.csv'), index_col=0)
+        #@ 修改1
+        exp = pd.read_csv(os.path.join(gene_path, 'CCLE_218_EXP.csv'), index_col=0)
+        # exp = pd.read_csv(os.path.join(gene_path, 'CCLE_2369_EXP.csv'), index_col=0)
         index = exp.index
         columns = exp.columns
 
@@ -52,6 +54,7 @@ def save_cell_graph(gene_path, save_path, type):
             if type == 'joint':
                 gene_list = exp.columns.to_list()
                 gene_list = set()
+                
                 for pw in kegg:
                     for gene in kegg[pw]:
                         if gene in exp.columns.to_list():
@@ -90,7 +93,8 @@ def get_STRING_edges(gene_path, ppi_threshold, type, gene_list):
     save_path = os.path.join(gene_path, 'edge_index_{}_{}.npy'.format(ppi_threshold, type))
     if not os.path.exists(save_path):
         # gene_list
-        ppi = pd.read_csv(os.path.join(gene_path, 'CCLE_2369_{}.csv'.format(ppi_threshold)), index_col=0)
+        # ppi = pd.read_csv(os.path.join(gene_path, 'CCLE_2369_{}.csv'.format(ppi_threshold)), index_col=0)
+        ppi = pd.read_csv(os.path.join(gene_path, 'CCLE_218_{}.csv'.format(ppi_threshold)), index_col=0)
 
         # joint graph (without pathway)
         if type == 'joint':
@@ -123,10 +127,11 @@ if __name__ == '__main__':
     rpath = './'
     gene_path = rpath+'Data/Cell'
     save_path = rpath+'Data/Cell'
-    with open(gene_path+'/34pathway_score990.pkl', 'rb') as file:
+    # with open(gene_path+'/34pathway_score990.pkl', 'rb') as file:
+    with open(gene_path+'/4pathway218.pkl', 'rb') as file:
         kegg = pickle.load(file)
 
-  
+    print(kegg)
     type = 'disjoint'  # type = joint, disjoint, ...
     
 

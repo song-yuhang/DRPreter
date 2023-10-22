@@ -25,3 +25,4 @@ python3 main.py --mode train
 ```sh
 python3 main.py --mode test --seed 0
 ```
+# python3 main.py --mode test --device 3 --dataset 218disjoint --seed 0

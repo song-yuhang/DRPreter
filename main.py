@@ -29,7 +29,7 @@ def arg_parse():
     parser.add_argument('--mode', type=str, default='train', help='train, test')
     parser.add_argument('--edge', type=str, default='STRING', help='STRING, BIOGRID') # BIOGRID: removed
     parser.add_argument('--string_edge', type=float, default=0.99, help='Threshold for edges of cell line graph')
-    parser.add_argument('--dataset', type=str, default='2369disjoint', help='2369joint, 2369disjoint, COSMIC')
+    parser.add_argument('--dataset', type=str, default='2369joint', help='2369joint, 2369disjoint, COSMIC')
     parser.add_argument('--trans', type=bool, default=True, help='Use Transformer or not')
     parser.add_argument('--sim', type=bool, default=False, help='Construct homogeneous similarity networks or not')
     return parser.parse_args()
@@ -38,6 +38,7 @@ def arg_parse():
 def main():
     args = arg_parse()
     args.device = 'cuda:{}'.format(args.device)
+    print(f"使用{args.device}")
     rpath = './'
     result_path = rpath + 'Result/'
     
@@ -53,6 +54,7 @@ def main():
     cell_dict = np.load(rpath+f'Data/Cell/cell_feature_std_{args.dataset}.npy', allow_pickle=True).item() # pyg data format of cell graph
 
     example = cell_dict['ACH-000001']
+    print(example)
     args.num_feature = example.x.shape[1] # 1
     args.num_genes = example.x.shape[0] # 4646
     # print(f'num_feature: {args.num_feature}, num_genes: {args.num_genes}')

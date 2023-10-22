@@ -3,7 +3,7 @@ import torch.nn as nn
 from Model.DrugEncoder import DrugEncoder
 from Model.CellEncoder import CellEncoder
 from Model.Transformer import Transformer
-
+import numpy as np
 class DRPreter(nn.Module):
     def __init__(self, args):
         super().__init__()
@@ -146,7 +146,9 @@ class DRPreter(nn.Module):
             x = torch.cat([x_drug, x_cell], -1)                # x.shape: torch.Size([128, 512])
 
             return x
-
+    def _save_tensor(self, x, path='name.npy'):
+        x1 = x.cpu()
+        np.save(path, x1.numpy())
 
     def forward(self, drug, cell):
         # ---- (1) forward drug ----
@@ -160,7 +162,14 @@ class DRPreter(nn.Module):
         x_cell = self.cell_emb(self.padding(x_cell, mask)) if self.trans else self.cell_emb(x_cell)
 
         # ---- (3) combine drug feature and cell line feature ----
+        # print(x_cell)
+        # print(x_drug)
+        # print()
+        self._save_tensor(x_cell, "./Result/cell.npy")
+        self._save_tensor(x_drug, "./Result/drug.npy")
+        
         x, _ = self.aggregate(x_cell, x_drug, trans=self.trans)
+        
         x = self.regression(x)
 
         return x
